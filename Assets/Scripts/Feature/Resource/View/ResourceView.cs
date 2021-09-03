@@ -6,11 +6,17 @@ using UnityEngine.UI;
 public class ResourceView : MonoBehaviour
 {
     private ResourceController _resource;
-
     public Text ResourceDescription;
     public Text ResourceUpgradeCost;
     public Text ResourceUnlockCost;
+    public Image ResourceImage;
+    public Button ResourceButton;
 
+    public void InitalizeController(ResourceController resource)
+    {
+        _resource = resource;
+        ResourceButton.onClick.AddListener(_resource.CheckUnlocked);
+    }
     public ResourceConfig Config
     {
         get { return _resource.GetConfig(); }
@@ -39,5 +45,6 @@ public class ResourceView : MonoBehaviour
     {
         ResourceUnlockCost.gameObject.SetActive(!_resource.IsUnlocked);
         ResourceUpgradeCost.gameObject.SetActive(_resource.IsUnlocked);
+        ResourceImage.color = _resource.IsUnlocked? Color.white : Color.grey;
     }
 }

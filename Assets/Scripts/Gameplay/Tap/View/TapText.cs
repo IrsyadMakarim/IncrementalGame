@@ -10,6 +10,13 @@ public class TapText : MonoBehaviour
 
     private float _spawnTime;
 
+
+    private Transform _coinIcon;
+
+    public void InitController(Transform coinIcon)
+    {
+        _coinIcon = coinIcon;
+    }
     private void OnEnable() 
     {
         _spawnTime = SpawnTime;
@@ -31,5 +38,15 @@ public class TapText : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
+    }
+
+    public void SetTapTextPosition(Vector3 tapPosition, Transform parent, double output)
+    {
+        transform.SetParent(parent, false);
+        transform.position = tapPosition;
+
+        Text.text = $"+{output.ToString("0")}";
+        gameObject.SetActive(true);
+        _coinIcon.transform.localScale = Vector3.one * 1.75f;
     }
 }

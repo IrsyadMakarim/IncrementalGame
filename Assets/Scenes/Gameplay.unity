@@ -447,6 +447,7 @@ GameObject:
   - component: {fileID: 410140841}
   - component: {fileID: 410140840}
   - component: {fileID: 410140839}
+  - component: {fileID: 410140842}
   m_Layer: 5
   m_Name: Achievement Pop Up
   m_TagString: Untagged
@@ -487,9 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5b78145cfb773441bf9365814d45b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _popUpTransform: {fileID: 410140838}
-  _popUpText: {fileID: 855865609}
-  _popUpShowDuration: 3
+  AchievementView: {fileID: 410140842}
   _achievementList:
   - Title: Unlock Intern
     Type: 0
@@ -503,6 +502,7 @@ MonoBehaviour:
     Type: 0
     Value: Manager
     IsUnlocked: 0
+  PopUpShowDurationCounter: 3
 --- !u!114 &410140840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,6 +540,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410140837}
   m_CullTransparentMesh: 0
+--- !u!114 &410140842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410140837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e156879619246e49be5dd1b00f9e8d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _popUpTransform: {fileID: 410140838}
+  _popUpText: {fileID: 855865609}
+  _popUpShowDuration: 3
 --- !u!1 &462084443
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,6 +917,7 @@ GameObject:
   m_Component:
   - component: {fileID: 589340808}
   - component: {fileID: 589340807}
+  - component: {fileID: 589340809}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -927,15 +943,15 @@ MonoBehaviour:
     UnlockCost: 0
     UpgradeCost: 1
     Output: 2
-  - Name: 'Intern '
+  - Name: Intern
     UnlockCost: 100
     UpgradeCost: 100
     Output: 200
-  - Name: 'Developer '
+  - Name: Developer
     UnlockCost: 10000
     UpgradeCost: 10000
     Output: 20000
-  - Name: 'Manager '
+  - Name: Manager
     UnlockCost: 1000000
     UpgradeCost: 1000000
     Output: 2000000
@@ -945,11 +961,9 @@ MonoBehaviour:
   ResourcesParent: {fileID: 1901157244}
   ResourcePrefab: {fileID: 6987064314608744297, guid: 219245ade8d52c7448bc5749e01193d3,
     type: 3}
-  TapTextPrefab: {fileID: 3368993930515542387, guid: dddde3dab50453c48a89a28758f9fbba,
-    type: 3}
-  CoinIcon: {fileID: 532903934}
   GoldInfo: {fileID: 1298021978}
   AutoCollectInfo: {fileID: 462084445}
+  TapController: {fileID: 589340809}
   TotalGold: 0
 --- !u!4 &589340808
 Transform:
@@ -965,6 +979,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &589340809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589340806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0544510221bcc499c670722d1283cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TapTextPrefab: {fileID: 3368993930515542387, guid: dddde3dab50453c48a89a28758f9fbba,
+    type: 3}
+  CoinIcon: {fileID: 532903934}
 --- !u!1 &849494081
 GameObject:
   m_ObjectHideFlags: 0
@@ -1788,7 +1817,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00003141615, y: -0.000012939809}
+  m_AnchoredPosition: {x: 0.00003141615, y: 0.0000053739973}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1901157245

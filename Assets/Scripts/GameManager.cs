@@ -29,15 +29,13 @@ public class GameManager : MonoBehaviour
 
     public Transform ResourcesParent;
     public ResourceController ResourcePrefab;
-    public TapText TapTextPrefab;
 
-    public Transform CoinIcon;
     public Text GoldInfo;
     public Text AutoCollectInfo;
 
     private List<ResourceController> _activeResources = new List<ResourceController>();
-    private List<TapText> _tapTextPool = new List<TapText>();
     private float _collectSecond;
+    public TapController TapController;
 
     public double TotalGold;
     // Start is called before the first frame update
@@ -59,10 +57,8 @@ public class GameManager : MonoBehaviour
 
         CheckResourceCost();
 
-        CoinIcon.transform.localScale = Vector3.LerpUnclamped
-        (CoinIcon.transform.localScale, Vector3.one *  2f, 0.15f);
-
-        CoinIcon.transform.Rotate(0f, 0f, Time.deltaTime  * -100f);
+        //ADD:AnimateCoinIcon() 
+        TapController.AnimateCoinIcon();
     }
 
     private void AddAllResources()
@@ -134,27 +130,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        TapText tapText  = GetOrCreateTapText();
-        tapText.transform.SetParent(parent, false);
-        tapText.transform.position = tapPosition;
-
-        tapText.Text.text = $"+{output.ToString("0")}";
-        tapText.gameObject.SetActive(true);
-        CoinIcon.transform.localScale  = Vector3.one * 1.75f;
+        //ADD: SetTapTextPosition()
+        TapController.ShowTapText(tapPosition, parent, output);
 
         AddGold(output);
-    }
-
-    private TapText GetOrCreateTapText()
-    {
-        TapText tapText = _tapTextPool.Find(t => !t.gameObject.activeSelf);
-        if (tapText == null)
-        {
-            tapText = Instantiate(TapTextPrefab).GetComponent<TapText>();
-            _tapTextPool.Add(tapText);
-        }
-
-        return tapText;
     }
 
     private void CheckResourceCost()
@@ -170,7 +149,7 @@ public class GameManager : MonoBehaviour
             {
                 isBuyable = TotalGold >= resource.GetUnlockCost();
             }
-            resource.ResourceImage.sprite = ResourceSprites[isBuyable? 1 : 0];
+            resource.ResourceView.ResourceImage.sprite = ResourceSprites[isBuyable? 1 : 0];
         }
     }
 }

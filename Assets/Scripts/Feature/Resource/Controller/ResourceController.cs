@@ -5,18 +5,20 @@ using UnityEngine.UI;
 
 public class ResourceController : MonoBehaviour
 {
-    public Button ResourceButton;
-    public Image ResourceImage;
-
+    public ResourceView ResourceView;
     private ResourceConfig _config;
     private int _level = 1;
 
-    public bool IsUnlocked { get; private set; }
+    public bool IsUnlocked = false;
 
+    private void Awake() 
+    {
+        ResourceView.InitalizeController(this);
+    }
     public void SetConfig(ResourceConfig config)
     {
         _config = config;
-
+        ResourceView.SetConfigName();
         SetUnlocked(_config.UnlockCost == 0);
     }
 
@@ -52,7 +54,7 @@ public class ResourceController : MonoBehaviour
         {
             return;
         }
-
+        ResourceView.SetUpgradeLevelName();
         GameManager.Instance.AddGold(-upgradeCost);
         _level++;
     }
@@ -68,27 +70,24 @@ public class ResourceController : MonoBehaviour
         SetUnlocked(true);
         GameManager.Instance.ShowNextResource();
 
-        AchievementController.Instance.UnlockAchievement(AchievementController.AchievementType.UnlockResource, _config.Name);
+        AchievementController.Instance.UnlockAchievement(AchievementType.UnlockResource, _config.Name);
     }
     
     public void SetUnlocked(bool unlocked)
     {
         IsUnlocked = unlocked;
-        ResourceImage.color = IsUnlocked? Color.white : Color.grey;
+        ResourceView.ShowUnlocked();
     }
-    // Start is called before the first frame update
-    private void Start()
+
+    public void CheckUnlocked()
     {
-        ResourceButton.onClick.AddListener(() =>
+        if(IsUnlocked)
         {
-            if(IsUnlocked)
-            {
-                UpgradeLevel();
-            }
-            else
-            {
-                UnlockResource();
-            }
-        });
+            UpgradeLevel();
+        }
+        else
+        {
+            UnlockResource();
+        }
     }
 }
